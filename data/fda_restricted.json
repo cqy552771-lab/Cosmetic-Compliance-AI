@@ -1,0 +1,97 @@
+{
+  "description": "FDA禁用/限用化妆品成分列表（简化版）",
+  "source": "FDA Cosmetics Regulations",
+  "last_updated": "2024-01-01",
+  "restricted_ingredients": [
+    {
+      "name": "Mercury",
+      "cas": "7439-97-6",
+      "inci": "Mercury",
+      "status": "prohibited",
+      "regulation": "21 CFR 700.13",
+      "reason": "Toxic heavy metal, causes kidney damage",
+      "limit": "0"
+    },
+    {
+      "name": "Lead Acetate",
+      "cas": "301-04-2",
+      "inci": "Lead Acetate",
+      "status": "prohibited",
+      "regulation": "21 CFR 700.13",
+      "reason": "Carcinogen, neurotoxin",
+      "limit": "0"
+    },
+    {
+      "name": "Chloroform",
+      "cas": "67-66-3",
+      "inci": "Chloroform",
+      "status": "prohibited",
+      "regulation": "21 CFR 700.18",
+      "reason": "Carcinogen",
+      "limit": "0"
+    },
+    {
+      "name": "Bithionol",
+      "cas": "97-18-7",
+      "inci": "Bithionol",
+      "status": "prohibited",
+      "regulation": "21 CFR 700.11",
+      "reason": "Causes photocontact sensitization",
+      "limit": "0"
+    },
+    {
+      "name": "Vinyl Chloride",
+      "cas": "75-01-4",
+      "inci": "Vinyl Chloride",
+      "status": "prohibited",
+      "regulation": "21 CFR 700.14",
+      "reason": "Carcinogen",
+      "limit": "0"
+    },
+    {
+      "name": "Halogenated Salicylanilides",
+      "cas": "",
+      "inci": "Tetrachlorosalicylanilide",
+      "status": "prohibited",
+      "regulation": "21 CFR 700.15",
+      "reason": "Causes photocontact dermatitis",
+      "limit": "0"
+    },
+    {
+      "name": "Zirconium",
+      "cas": "7440-67-7",
+      "inci": "Zirconium",
+      "status": "restricted",
+      "regulation": "21 CFR 700.16",
+      "reason": "Causes pulmonary granulomas in aerosol forms",
+      "limit": "Prohibited in aerosol products"
+    },
+    {
+      "name": "Hexachlorophene",
+      "cas": "70-30-4",
+      "inci": "Hexachlorophene",
+      "status": "restricted",
+      "regulation": "21 CFR 250.250",
+      "reason": "Neurotoxin",
+      "limit": "0.1%"
+    },
+    {
+      "name": "Formaldehyde",
+      "cas": "50-00-0",
+      "inci": "Formaldehyde",
+      "status": "restricted",
+      "regulation": "FDA Guidance",
+      "reason": "Carcinogen, skin sensitizer",
+      "limit": "0.2%"
+    },
+    {
+      "name": "Parabens (high concentration)",
+      "cas": "",
+      "inci": "Butylparaben, Propylparaben",
+      "status": "restricted",
+      "regulation": "FDA Guidance",
+      "reason": "Endocrine disruption concerns",
+      "limit": "0.19% individual / 0.8% total"
+    }
+  ]
+}

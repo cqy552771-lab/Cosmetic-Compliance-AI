@@ -1,0 +1,97 @@
+{
+  "description": "中国GB 2760及化妆品安全技术规范禁限用成分列表（简化版）",
+  "source": "化妆品安全技术规范(2015版)",
+  "last_updated": "2024-01-01",
+  "restricted_ingredients": [
+    {
+      "name": "汞及其化合物",
+      "name_en": "Mercury and its compounds",
+      "cas": "7439-97-6",
+      "status": "prohibited",
+      "table": "表1",
+      "reason": "重金属毒素，损伤肾脏和神经系统",
+      "limit": "禁用"
+    },
+    {
+      "name": "铅及其化合物",
+      "name_en": "Lead and its compounds",
+      "cas": "7439-92-1",
+      "status": "prohibited",
+      "table": "表1",
+      "reason": "神经毒素，致癌物",
+      "limit": "禁用"
+    },
+    {
+      "name": "砷及其化合物",
+      "name_en": "Arsenic and its compounds",
+      "cas": "7440-38-2",
+      "status": "prohibited",
+      "table": "表1",
+      "reason": "致癌物，皮肤毒性",
+      "limit": "禁用"
+    },
+    {
+      "name": "二噁烷",
+      "name_en": "1,4-Dioxane",
+      "cas": "123-91-1",
+      "status": "restricted",
+      "table": "表3",
+      "reason": "潜在致癌物（副产物污染）",
+      "limit": "≤30ppm"
+    },
+    {
+      "name": "甲醇",
+      "name_en": "Methanol",
+      "cas": "67-56-1",
+      "status": "restricted",
+      "table": "表3",
+      "reason": "神经毒素",
+      "limit": "≤2000ppm"
+    },
+    {
+      "name": "对苯二胺",
+      "name_en": "p-Phenylenediamine",
+      "cas": "106-50-3",
+      "status": "restricted",
+      "table": "表4",
+      "reason": "致敏原，染发剂成分",
+      "limit": "≤6%（氧化染发剂）"
+    },
+    {
+      "name": "氢醌",
+      "name_en": "Hydroquinone",
+      "cas": "123-31-9",
+      "status": "restricted",
+      "table": "表6",
+      "reason": "皮肤毒性，潜在致癌",
+      "limit": "≤2%（美白产品）"
+    },
+    {
+      "name": "维A酸",
+      "name_en": "Retinoic acid",
+      "cas": "302-79-4",
+      "status": "prohibited",
+      "table": "表1",
+      "reason": "致畸性，孕妇禁用",
+      "limit": "禁用（处方药）"
+    },
+    {
+      "name": "苯二胺",
+      "name_en": "Phenylenediamine",
+      "cas": "",
+      "status": "restricted",
+      "table": "表4",
+      "reason": "致敏原",
+      "limit": "≤10%"
+    },
+    {
+      "name": "防腐剂尼泊金酯类",
+      "name_en": "Parabens",
+      "cas": "",
+      "status": "restricted",
+      "table": "表3",
+      "reason": "内分泌干扰嫌疑",
+      "limit": "单酯≤0.4%，混合≤0.8%"
+    }
+  ]
+}
