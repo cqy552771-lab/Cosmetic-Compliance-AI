@@ -8,12 +8,20 @@ Cosmetic Compliance AI - AI 化妆品成分合规性分析助手
 import streamlit as st
 from datetime import datetime
 
+# 加载 .env 环境变量（ANTHROPIC_API_KEY 等）
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
 from scraper import web_scraper, parse_ingredient_text, validate_ingredients
 from cache import (
     check_cache, cache_result, generate_product_id,
     save_query_history, get_query_history, get_cache_stats, clear_cache
 )
 from analyzer import analyze_product, report_to_dict
+from report_generator import generate_compliance_report
 
 # ─────────────────────────────────────────────
 # 页面配置
@@ -474,6 +482,109 @@ def render_highlights(report: dict):
     st.markdown(badges_html, unsafe_allow_html=True)
 
 
+def render_ai_report(report: dict):
+    """
+    渲染 AI 深度分析标签页
+
+    提供「生成报告」按钮，点击后调用 Claude API 生成自然语言专业报告。
+    结果缓存于 session_state，避免重复调用。
+    """
+    import os
+
+    st.markdown("### 🤖 AI 深度分析报告")
+    st.caption("由 Claude claude-sonnet-4-6 驱动，结合化工专业知识与法规数据库生成专业分析。")
+
+    # ── API Key 状态检测 ──
+    has_key = bool(os.getenv("ANTHROPIC_API_KEY", "").strip())
+    if not has_key:
+        st.warning(
+            "⚙️ **AI 功能未启用**：请在 `.env` 文件中配置 `ANTHROPIC_API_KEY`，"
+            "然后重启应用。\n\n"
+            "获取 API Key → [Anthropic Console](https://console.anthropic.com)",
+            icon="🔑",
+        )
+
+    # ── 缓存键（基于品牌+产品名）──
+    cache_key = f"ai_report_{report.get('brand', '')}_{report.get('product_name', '')}"
+
+    # ── 生成按钮 ──
+    col_btn, col_clear = st.columns([2, 1])
+    with col_btn:
+        generate_clicked = st.button(
+            "✨ 生成 AI 深度分析报告",
+            type="primary",
+            disabled=not has_key,
+            use_container_width=True,
+            key="ai_generate_btn",
+        )
+    with col_clear:
+        if st.button("🔄 重新生成", use_container_width=True, key="ai_refresh_btn"):
+            if cache_key in st.session_state:
+                del st.session_state[cache_key]
+            st.rerun()
+
+    # ── 触发生成 ──
+    if generate_clicked and cache_key not in st.session_state:
+        with st.spinner("🧠 Claude 正在分析成分数据，生成专业报告（约 10-20 秒）..."):
+            ai_result = generate_compliance_report(report)
+            st.session_state[cache_key] = ai_result
+
+    # ── 展示报告 ──
+    if cache_key in st.session_state:
+        ai_result = st.session_state[cache_key]
+        content   = ai_result.get("report_content", "")
+        success   = ai_result.get("success", False)
+        gen_time  = ai_result.get("generated_at", "")
+        tokens    = ai_result.get("tokens_used", {})
+
+        if success:
+            # 报告正文（Markdown 渲染）
+            st.markdown("---")
+            st.markdown(
+                f"<div class='report-section'>{content}</div>",
+                unsafe_allow_html=True,
+            )
+
+            # 元信息行
+            st.markdown("---")
+            meta_cols = st.columns(3)
+            meta_cols[0].caption(
+                f"🤖 模型：{ai_result.get('model', 'claude-sonnet-4-6')}"
+            )
+            meta_cols[1].caption(
+                f"🔢 Token 消耗：输入 {tokens.get('input', '?')} / 输出 {tokens.get('output', '?')}"
+            )
+            try:
+                dt_str = datetime.fromisoformat(gen_time).strftime("%Y-%m-%d %H:%M:%S")
+            except ValueError:
+                dt_str = gen_time
+            meta_cols[2].caption(f"🕐 生成时间：{dt_str}")
+
+            # 导出 AI 报告
+            import json as _json
+            ai_export = _json.dumps(ai_result, ensure_ascii=False, indent=2)
+            st.download_button(
+                "📥 导出 AI 报告（JSON）",
+                data=ai_export,
+                file_name=(
+                    f"{report.get('brand', 'brand')}_"
+                    f"{report.get('product_name', 'product')}_ai_report.json"
+                ),
+                mime="application/json",
+            )
+
+        else:
+            # 降级显示错误/配置提示
+            st.markdown(content)
+
+    elif not generate_clicked:
+        st.info(
+            "💡 点击上方「生成 AI 深度分析报告」按钮，"
+            "Claude 将结合化工专业知识为您生成专业评估报告。",
+            icon="ℹ️",
+        )
+
+
 def render_report(report: dict):
     """渲染完整分析报告"""
     brand = report.get("brand", "")
@@ -487,8 +598,8 @@ def render_report(report: dict):
     render_overview(report)
 
     # 标签页
-    tab1, tab2, tab3, tab4 = st.tabs(
-        ["⚠️ 风险成分", "🔬 成分全表", "💆 肤质适用", "💊 建议"]
+    tab1, tab2, tab3, tab4, tab5 = st.tabs(
+        ["⚠️ 风险成分", "🔬 成分全表", "💆 肤质适用", "💊 建议", "🤖 AI深度分析"]
     )
 
     with tab1:
@@ -503,6 +614,9 @@ def render_report(report: dict):
 
     with tab4:
         render_recommendations(report)
+
+    with tab5:
+        render_ai_report(report)
 
     # 导出
     st.markdown("---")

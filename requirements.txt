@@ -15,6 +15,6 @@ pandas>=2.1.0
 # ── Utilities ─────────────────────────────────
 python-dotenv>=1.0.0
 
-# ── Optional: OpenAI LLM Integration ──────────
-# Uncomment if you want LLM-powered deep analysis
-# openai>=1.12.0
+# ── AI Report Generation (Step 3) ─────────────
+# Claude LLM 深度分析报告生成模块所需
+anthropic>=0.25.0
